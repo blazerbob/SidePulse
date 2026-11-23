@@ -11,6 +11,7 @@ build/
 dist/
 *.spec
 *.egg-info/
+*.zip
 .idea/
 .vscode/
 .DS_Store

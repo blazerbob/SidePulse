@@ -21,7 +21,8 @@
 - Python 3.10+ (проверено на 3.12) + **Tkinter** (окно-оверлей, без рамки, topmost)
 - `psutil` — ОЗУ и общая статистика
 - `pythonnet` + `LibreHardwareMonitorLib.dll` — температуры CPU/GPU (**рекомендуемый** способ на Windows)
-- `pynvml` / `nvidia-ml-py` — фолбэк для NVIDIA
+- `nvidia-ml-py` — NVIDIA NVML для температуры RTX/GPU
+- `LibreHardwareMonitorLib.dll` — CPU/GPU датчики; установить через `tools\setup_hardware.ps1`
 
 ## Статус
 
@@ -29,7 +30,7 @@
 - [x] ТЗ для исполнителя — [docs/TZ.md](docs/TZ.md)
 - [x] Реализация MVP панели (окно + RAM/CPU/GPU метрики)
 - [x] Трей, скрытие/выход, сохранение позиции
-- [ ] Установка LibreHardwareMonitor DLL для температур CPU/GPU
+- [ ] Проверить/установить LibreHardwareMonitor DLL: `powershell -ExecutionPolicy Bypass -File tools\setup_hardware.ps1`
 - [ ] Автозапуск и отдельное окно настроек
 - [ ] Сборка `.exe` (PyInstaller + Inno Setup)
 

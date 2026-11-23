@@ -27,11 +27,29 @@ class TemperatureProvider:
         try:
             from pathlib import Path
 
+            from pythonnet import load
+
+            load("netfx")
             import clr  # type: ignore[import-not-found]
 
-            dll = Path(__file__).resolve().parents[1] / "lib" / "LibreHardwareMonitorLib.dll"
+            lib_dir = Path(__file__).resolve().parents[1] / "lib"
+            dll = lib_dir / "LibreHardwareMonitorLib.dll"
             if not dll.exists():
                 return None
+            for dependency in (
+                "System.Memory.dll",
+                "System.Runtime.CompilerServices.Unsafe.dll",
+                "System.Buffers.dll",
+                "System.Threading.AccessControl.dll",
+                "System.Security.AccessControl.dll",
+                "System.Security.Principal.Windows.dll",
+            ):
+                dependency_path = lib_dir / dependency
+                if dependency_path.exists():
+                    try:
+                        clr.AddReference(str(dependency_path))
+                    except Exception:
+                        pass
             clr.AddReference(str(dll))
             from LibreHardwareMonitor.Hardware import Computer  # type: ignore[import-not-found]
 
@@ -52,6 +70,7 @@ class TemperatureProvider:
                         if (
                             sensor.SensorType.ToString() == "Temperature"
                             and sensor.Value is not None
+                            and float(sensor.Value) > 0
                         ):
                             values.append(float(sensor.Value))
                 return min(values) if values else None

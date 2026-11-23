@@ -12,13 +12,11 @@ dependencies = [
     "psutil>=5.9",
     "pystray>=0.19",
     "Pillow>=10.0",
+    "pythonnet>=3.0",
+    "nvidia-ml-py>=12.535",
 ]
 
 [project.optional-dependencies]
-hardware = [
-    "nvidia-ml-py>=12.535",
-    "pythonnet>=3.0",
-]
 dev = [
     "pytest>=8.0",
     "ruff>=0.8",
