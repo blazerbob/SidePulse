@@ -13,7 +13,9 @@ if (Test-Path $extract) { Remove-Item $extract -Recurse -Force }
 Expand-Archive -Path $temp -DestinationPath $extract -Force
 $dll = Get-ChildItem -Path $extract -Filter 'LibreHardwareMonitorLib.dll' -Recurse | Select-Object -First 1
 if (-not $dll) { throw 'LibreHardwareMonitorLib.dll was not found in the downloaded archive.' }
-Copy-Item $dll.FullName (Join-Path $lib 'LibreHardwareMonitorLib.dll') -Force
+Get-ChildItem -Path $extract -Filter '*.dll' -Recurse | ForEach-Object {
+    Copy-Item $_.FullName (Join-Path $lib $_.Name) -Force
+}
 Remove-Item $temp -Force -ErrorAction SilentlyContinue
 Remove-Item $extract -Recurse -Force -ErrorAction SilentlyContinue
 Write-Host "Installed: $(Join-Path $lib 'LibreHardwareMonitorLib.dll')"
